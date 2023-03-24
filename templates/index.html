@@ -87,7 +87,8 @@
               <div class="subtitle">{{ institution.description }}</div>
             </div>
 
-            <div class="col"><div class="text">{% for category in institution.category.all %}{{ category.name }} {% endfor %}</div></div>
+{#            <div class="col"><div class="text">{% for category in institution.category.all %}{{ category.name }} {% endfor %}</div></div>#}
+          <div class="col"><div class="text">{{ institution.category.all|join:", " }}</div></div>
           </li>
             {% endfor %}
         </ul>

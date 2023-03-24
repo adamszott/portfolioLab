@@ -2,10 +2,11 @@ from django.shortcuts import render, redirect
 from django.views import View
 from .models import Institution, Donation
 from django.contrib.auth.models import User
-from django.core.exceptions import ValidationError
+from django.contrib.auth import authenticate, login, logout
+from django.contrib import messages
 
 
-class indexView(View):
+class IndexView(View):
     def get(self, request):
         institutions_count = 0
         bags_count = 0
@@ -27,12 +28,30 @@ class indexView(View):
         })
 
 
-class loginView(View):
+class LoginView(View):
     def get(self, request):
         return render(request, 'login.html')
 
+    def post(self, request):
+        username = request.POST['email']
+        password = request.POST['password']
+        user = authenticate(username=username, password=password)
+        if user:
+            login(request, user)
+            return redirect('/')
+        elif User.objects.filter(username=username):
+            return redirect('/login')
+        else:
+            return redirect('/register')
 
-class registerView(View):
+
+class LogoutView(View):
+    def get(self, request):
+        logout(request)
+        return redirect('/')
+
+
+class RegisterView(View):
     def get(self, request):
         return render(request, 'register.html')
 
@@ -41,9 +60,6 @@ class registerView(View):
         surname = request.POST['surname']
         email = request.POST['email']
         password = request.POST['password']
-        password2 = request.POST['password2']
-        if password != password2:
-            raise ValidationError("Podane hasła nie są identyczne")
 
         User.objects.create_user(
             username=email,
@@ -54,6 +70,7 @@ class registerView(View):
         )
         return redirect('/login')
 
-class addDonationView(View):
+
+class AddDonationView(View):
     def get(self, request):
         return render(request, 'form.html')

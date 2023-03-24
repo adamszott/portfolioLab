@@ -19,8 +19,9 @@ from charity import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', views.indexView.as_view()),
-    path('login/', views.loginView.as_view()),
-    path('register/', views.registerView.as_view()),
-    path('donation/', views.addDonationView.as_view())
+    path('', views.IndexView.as_view(), name="landingpage"),
+    path('login/', views.LoginView.as_view(), name="login"),
+    path('register/', views.RegisterView.as_view(), name="register"),
+    path('donation/', views.AddDonationView.as_view(), name="donation"),
+    path('logout/', views.LogoutView.as_view(), name="logout")
 ]
