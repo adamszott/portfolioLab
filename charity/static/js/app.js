@@ -221,7 +221,21 @@ document.addEventListener("DOMContentLoaded", function() {
     updateForm() {
       this.$step.innerText = this.currentStep;
 
+      // if (this.currentStep === 3) {
+      //   institutionsDisplay()
+      //   }
+      // }
+
+      if (this.currentStep === 5) {
+
+      // donationDisplay()
+  }
+
       // TODO: Validation
+      // jezeli jestesmy na kroku 1 zapisujemy kliknięte kategorie do listy
+      // na kroku 3 wyswietlamy tylko wyfiltrowane organizacje z kroku 1
+      // krok 4 zapisujemy dane z formularza do json
+      // krok 5 odczytujemy dane z json i wypisujemy
 
       this.slides.forEach(slide => {
         slide.classList.remove("active");
@@ -235,6 +249,7 @@ document.addEventListener("DOMContentLoaded", function() {
       this.$step.parentElement.hidden = this.currentStep >= 6;
 
       // TODO: get data from inputs and show them in summary
+
     }
 
     /**
@@ -252,4 +267,42 @@ document.addEventListener("DOMContentLoaded", function() {
   if (form !== null) {
     new FormSteps(form);
   }
+
+
 });
+document.getElementById("ulica").innerHTML = 'ulica Poznańska'
+// function chooseCategories() {
+//   const categoryOptions = document.querySelector('input[type=checkbox]:checked')
+//   const categories = []
+//   categoryOptions.forEach((option) => {
+//   categories.push(option.value);
+//   });
+//     return categories;
+// }
+
+// function institutionsDisplay() {
+//   const categories = chooseCategories()
+//   const institutions = JSON.parse(document.querySelector('[data-step="3"]').dataset.institutions);
+//   const filteredInstitutions = institutions.filter((institution) => {
+//   return categories.some((category) => institution.category.includes(category));
+//   });
+//   return filteredInstitutions;
+// }
+//
+// function donationDataForm() {
+//   address: document.getElementById("address").value,
+//   city: document.getElementById("city").value,
+//   postalCode: document.getElementById("postcode").value,
+//   phoneNumber: document.getElementById("phoneNumber").value,
+//   date: document.getElementById("date").value,
+//   time: document.getElementById("time").value,
+//   notes: document.getElementById("info").value,
+//
+//   let formDataJSON = JSON.stringify(formData);
+//   return formDataJSON;
+// }
+//
+// function donationDisplay() {
+//   donationData = donationDataForm();
+  
+}

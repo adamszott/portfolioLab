@@ -1,9 +1,10 @@
 from django.shortcuts import render, redirect
 from django.views import View
-from .models import Institution, Donation
+from .models import Institution, Donation, Category
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 
 class IndexView(View):
@@ -71,6 +72,37 @@ class RegisterView(View):
         return redirect('/login')
 
 
-class AddDonationView(View):
+class AddDonationView(LoginRequiredMixin, View):
     def get(self, request):
-        return render(request, 'form.html')
+        categories = Category.objects.all()
+        institutions = Institution.objects.all()
+        return render(request, 'form.html', {'categories': categories, 'institutions': institutions})
+
+    def post(self, request):
+        donate = Donation.objects.create(
+            quantity=request.POST['bags'],
+            categories=request.POST['categories'],
+            institution=request.POST['organization'],
+            address=request.POST['address'],
+            phone_number=request.POST['phone'],
+            city=request.POST['city'],
+            zip_code=request.POST['postcode'],
+            pick_up_date=request.POST['data'],
+            pick_up_time=request.POST['time'],
+            pick_up_comment=request.POST['more_info'],
+            user_id=request.user.id
+        )
+        donate.save()
+        return redirect('/confirmation/')
+
+
+class UserView(View):
+    def get(self, request, id):
+        user = User.objects.get(id=id)
+        return render(request, 'user.html', {'user': user})
+
+
+class ConfirmationView(View):
+    def get(self, request):
+        return render(request, 'form-confirmation.html')
+
