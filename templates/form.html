@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block content %}
 
 
@@ -86,7 +87,7 @@
             <div class="form-group form-group--inline">
               <label>
                 Liczba 60l worków:
-                <input type="number" name="bags" step="1" min="1" />
+                <input type="number" name="bags" id="bags" step="1" min="1" />
               </label>
             </div>
 
@@ -100,14 +101,14 @@
 
           <!-- STEP 3 -->
           <div data-step="3" >
-            <h3>Wybierz organizacje, której chcesz pomóc:</h3>
+            <h3>Wybierz organizację, której chcesz pomóc:</h3>
                 {% for institution in institutions %}
             <div class="form-group form-group--checkbox">
               <label>
-                <input type="radio" name="organization" value="{{ institution.id }}" />
+                <input type="radio" name="organization" value="{% for category in institution.category.all %} {{ category.id }}{% endfor %}" />
                 <span class="checkbox radio"></span>
                 <span class="description">
-                  <div class="title">{{ institution }}</div>
+                  <div class="title" id="institution">{{ institution.name }}</div>
                   <div class="subtitle">
                     {{ institution.description }}
                   </div>
@@ -115,6 +116,7 @@
               </label>
             </div>
                 {% endfor %}
+
 
             <div class="form-group form-group--buttons">
               <button type="button" class="btn prev-step">Wstecz</button>
@@ -145,7 +147,7 @@
 
                 <div class="form-group form-group--inline">
                   <label>
-                    Numer telefonu <input type="phone" id="phoneNumber"  name="phone" />
+                    Numer telefonu <input type="phone" id="phone"  name="phone" />
                   </label>
                 </div>
               </div>
@@ -185,14 +187,14 @@
                   <li>
                     <span class="icon icon-bag"></span>
                     <span class="summary--text"
-                      >4 worki ubrań w dobrym stanie dla dzieci</span
+                      id="bagsDisplay"></span
                     >
                   </li>
 
                   <li>
                     <span class="icon icon-hand"></span>
                     <span class="summary--text"
-                      >Dla fundacji "Mam marzenie" w Warszawie</span
+                      id="institutionDisplay"></span
                     >
                   </li>
                 </ul>
@@ -202,19 +204,19 @@
                 <div class="form-section--column">
                   <h4>Adres odbioru:</h4>
                   <ul>
-                    <li id="ulica"> </li>
-                    <li>Warszawa</li>
-                    <li>99-098</li>
-                    <li>123 456 789</li>
+                    <li id="addressDisplay"></li>
+                    <li id="cityDisplay"></li>
+                    <li id="postcodeDisplay"></li>
+                    <li id="phoneDisplay"></li>
                   </ul>
                 </div>
 
                 <div class="form-section--column">
                   <h4>Termin odbioru:</h4>
                   <ul>
-                    <li>13/12/2018</li>
-                    <li>15:40</li>
-                    <li>Brak uwag</li>
+                    <li id="dateDisplay"></li>
+                    <li id="timeDisplay"></li>
+                    <li id="infoDisplay"></li>
                   </ul>
                 </div>
               </div>

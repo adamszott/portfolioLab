@@ -221,21 +221,68 @@ document.addEventListener("DOMContentLoaded", function() {
     updateForm() {
       this.$step.innerText = this.currentStep;
 
-      // if (this.currentStep === 3) {
-      //   institutionsDisplay()
-      //   }
-      // }
+      if (this.currentStep === 3) {
+        this.categories = [];
+        const chosenCategories = document.querySelectorAll('input[type="checkbox"]');
+
+        for (const category of chosenCategories) {
+          if (category.checked)
+            this.categories.push(category.value);
+        }
+
+        const instElements = document.querySelectorAll('input[type="radio"]');
+        for (const element of instElements) {
+          element.parentElement.parentElement.style.display = 'block';
+          for (let i = 0; i < this.categories.length; i++){
+            if (!element.value.includes(this.categories[i])) {
+              element.parentElement.parentElement.style.display = 'none';
+              break;
+            }
+          }
+        }
+      }
 
       if (this.currentStep === 5) {
+        const bags = document.getElementById("bags").value
+        const bagsDisplay = document.getElementById("bagsDisplay")
+        bagsDisplay.innerHTML = "Oddajesz liczbę worków: " + bags
 
-      // donationDisplay()
-  }
+        const institution = document.querySelector('input[type="radio"]:checked')
+        if (institution) {
+          const institutionName = institution.parentElement.querySelector('#institution').innerText;
+          const institutionDisplay = document.getElementById("institutionDisplay")
+          institutionDisplay.innerHTML = "Dla: " + institutionName
+        }
 
-      // TODO: Validation
-      // jezeli jestesmy na kroku 1 zapisujemy kliknięte kategorie do listy
-      // na kroku 3 wyswietlamy tylko wyfiltrowane organizacje z kroku 1
-      // krok 4 zapisujemy dane z formularza do json
-      // krok 5 odczytujemy dane z json i wypisujemy
+        const address = document.getElementById("address").value
+        const addressDisplay = document.getElementById("addressDisplay")
+        addressDisplay.innerHTML ='ulica ' + address
+
+        const city = document.getElementById("city").value
+        const cityDisplay = document.getElementById("cityDisplay")
+        cityDisplay.innerHTML = city
+
+        const postcode = document.getElementById("postcode").value
+        const postcodeDisplay = document.getElementById("postcodeDisplay")
+        postcodeDisplay.innerHTML = postcode
+
+        const phone = document.getElementById("phone").value
+        const phoneDisplay = document.getElementById("phoneDisplay")
+        phoneDisplay.innerHTML = phone
+
+        const date = document.getElementById("date").value
+        const dateDisplay = document.getElementById("dateDisplay")
+        dateDisplay.innerHTML = date
+
+        const time = document.getElementById("time").value
+        const timeDisplay = document.getElementById("timeDisplay")
+        timeDisplay.innerHTML = time
+
+        const info = document.getElementById("info").value
+        const infoDisplay = document.getElementById("infoDisplay")
+        infoDisplay.innerHTML = info
+      }
+
 
       this.slides.forEach(slide => {
         slide.classList.remove("active");
@@ -249,7 +296,6 @@ document.addEventListener("DOMContentLoaded", function() {
       this.$step.parentElement.hidden = this.currentStep >= 6;
 
       // TODO: get data from inputs and show them in summary
-
     }
 
     /**
@@ -267,42 +313,4 @@ document.addEventListener("DOMContentLoaded", function() {
   if (form !== null) {
     new FormSteps(form);
   }
-
-
 });
-document.getElementById("ulica").innerHTML = 'ulica Poznańska'
-// function chooseCategories() {
-//   const categoryOptions = document.querySelector('input[type=checkbox]:checked')
-//   const categories = []
-//   categoryOptions.forEach((option) => {
-//   categories.push(option.value);
-//   });
-//     return categories;
-// }
-
-// function institutionsDisplay() {
-//   const categories = chooseCategories()
-//   const institutions = JSON.parse(document.querySelector('[data-step="3"]').dataset.institutions);
-//   const filteredInstitutions = institutions.filter((institution) => {
-//   return categories.some((category) => institution.category.includes(category));
-//   });
-//   return filteredInstitutions;
-// }
-//
-// function donationDataForm() {
-//   address: document.getElementById("address").value,
-//   city: document.getElementById("city").value,
-//   postalCode: document.getElementById("postcode").value,
-//   phoneNumber: document.getElementById("phoneNumber").value,
-//   date: document.getElementById("date").value,
-//   time: document.getElementById("time").value,
-//   notes: document.getElementById("info").value,
-//
-//   let formDataJSON = JSON.stringify(formData);
-//   return formDataJSON;
-// }
-//
-// function donationDisplay() {
-//   donationData = donationDataForm();
-  
-}
