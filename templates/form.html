@@ -1,5 +1,4 @@
 {% extends 'base.html' %}
-{% load static %}
 {% block content %}
 
 
@@ -29,7 +28,6 @@
           </div>
         </div>
       </div>
-    </header>
 
     <section class="form--steps">
       <div class="form--steps-instructions">
@@ -54,7 +52,8 @@
       <div class="form--steps-container">
         <div class="form--steps-counter">Krok <span>1</span>/5</div>
 
-        <form action="form-confirmation.html" method="post">
+        <form action="{% url 'donation' %}" method="post">
+            {% csrf_token %}
           <!-- STEP 1: class .active is switching steps -->
           <div data-step="1" class="active">
             <h3>Zaznacz co chcesz oddać:</h3>
@@ -96,7 +95,6 @@
               <button type="button" class="btn next-step">Dalej</button>
             </div>
           </div>
-
 
 
           <!-- STEP 3 -->
@@ -224,7 +222,7 @@
 
             <div class="form-group form-group--buttons">
               <button type="button" class="btn prev-step">Wstecz</button>
-              <button type="submit" class="btn">Potwierdzam</button>
+              <button type="submit" class="btn next-step">Potwierdzam</button>
             </div>
           </div>
         </form>

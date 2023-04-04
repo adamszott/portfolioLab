@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, reverse
 from django.views import View
 from .models import Institution, Donation, Category
 from django.contrib.auth.models import User
@@ -79,29 +79,29 @@ class AddDonationView(LoginRequiredMixin, View):
         return render(request, 'form.html', {'categories': categories, 'institutions': institutions})
 
     def post(self, request):
-        donate = Donation.objects.create(
-            quantity=request.POST.get('bags'),
-            address=request.POST.get('address'),
-            institution=Institution.objects.get(name=request.POST.get('organization')),
-            phone_number=request.POST.get('phone'),
-            city=request.POST.get('city'),
-            zip_code=request.POST.get('postcode'),
-            pick_up_date=request.POST.get('date'),
-            pick_up_time=request.POST.get('time'),
-            pick_up_comment=request.POST.get('more_info'),
+        donation = Donation.objects.create(
+            quantity=request.POST['bags'],
+            address=request.POST['address'],
+            institution=Institution.objects.get(name=request.POST['organization']),
+            phone_number=request.POST['phone'],
+            city=request.POST['city'],
+            zip_code=request.POST['postcode'],
+            pick_up_date=request.POST['date'],
+            pick_up_time=request.POST['time'],
+            pick_up_comment=request.POST['more_info'],
             user=User.objects.get(username=request.user)
         )
+        donation.save()
+        return redirect('/confirm/')
 
-        return redirect('/confirmation/')
 
-
-class UserView(View):
+class UserView(LoginRequiredMixin, View):
     def get(self, request, id):
         user = User.objects.get(id=id)
         return render(request, 'user.html', {'user': user})
 
 
-class ConfirmationView(View):
+class ConfirmationView(LoginRequiredMixin, View):
     def get(self, request):
         return render(request, 'form-confirmation.html')
 
